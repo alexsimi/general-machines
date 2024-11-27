@@ -1,0 +1,126 @@
+---
+title: "RVF"
+author: "simi"
+date: "2024-11-13"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+##Rift Valley Fever virus seroprevalence cross-sectional study Analysis
+
+```{r}
+library(ggplot2)
+rvf<-read.csv("Rift valley fever.csv")
+```
+
+```{r}
+head(rvf,10)
+```
+
+
+```{r}
+str(rvf)
+```
+
+#The variables of interest include Species, sex, age, area, pathogen, landuse and result
+```{r}
+names(rvf)
+```
+
+
+```{r}
+rvf_copy<-rvf[,c("species","breed","sex","age","area","pathogen","landuse","result")]
+```
+
+
+```{r}
+head(rvf_copy)
+```
+
+
+```{r}
+table(rvf_copy$species,rvf_copy$sex)
+```
+```{r}
+ggplot(rvf_copy, aes(x = species, fill = sex)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Animal species distribution by sex",
+       x = "Animal", y = "Count", fill = "sex") +
+  theme_minimal()
+
+```
+
+
+```{r}
+table(rvf_copy$age)
+```
+
+
+```{r}
+table(rvf_copy$pathogen,rvf_copy$result)
+```
+
+```{r}
+table(rvf$area,rvf$result)
+```
+
+```{r}
+
+# Create the clustered column chart
+ggplot(rvf_copy, aes(x = area, fill = result)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Distribution of Rift valley fever Virus Outcomes in Bura and Hola",
+       x = "Area",
+       y = "Count") +
+  theme_minimal() +
+  scale_fill_manual(values = c("positive" = "red2", "negative" = "green3")) +
+  theme(legend.title = element_blank())
+
+
+```
+
+```{r}
+table(rvf_copy$pathogen,rvf_copy$species)
+```
+
+```{r}
+ggplot(rvf_copy, aes(x = pathogen, fill = species)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Pathogen distribution by species",
+       x = "pathogen", y = "Count", fill = "species") +
+  theme_minimal()
+
+```
+
+
+```{r}
+table(rvf_copy$result,rvf_copy$species)
+
+```
+```{r}
+ggplot(rvf_copy, aes(x = result, fill = species)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Test results distribution by species",
+       x = "result", y = "Count", fill = "species") +
+  theme_minimal()
+```
+```{r}
+table(rvf_copy$breed,rvf_copy$result)
+```
+
+```{r}
+ggplot(rvf_copy, aes(x = breed, fill =result)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Rift valley virus distribution by breed",
+       x = "Animal", y = "Count", fill = "result") +
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+
+
